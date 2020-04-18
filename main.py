@@ -18,8 +18,6 @@ warnings.filterwarnings('ignore')
 from utils.models import Meta, VGG16, TransformerNet
 from utils.util import normalize_batch, tv_loss, load_image, save_image
 
-imsize = 256 if torch.cuda.is_available() else 128
-
 def main():
     main_arg_parser = argparse.ArgumentParser(description="parser for Meta Networks for Neural Style Transfer")
     subparsers = main_arg_parser.add_subparsers(title="subcommands", dest="subcommand")
@@ -90,8 +88,8 @@ def train(args):
     style_weight = args.style_weight
     
     transform = transforms.Compose([
-        transforms.Resize(imsize),
-        transforms.CenterCrop(imsize),
+        transforms.Resize(args.image_size),
+        transforms.CenterCrop(args.image_size),
         transforms.ToTensor(),
         transforms.Normalize(mean=[0.485, 0.456, 0.406],
                             std=[0.229, 0.224, 0.225])])
