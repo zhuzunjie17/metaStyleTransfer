@@ -166,7 +166,7 @@ def train(args):
             optimizer.step()
 
             # Logging the losses
-            if (batch_id + 1) % 1 == 0: #args.log_interval == 0:
+            if (batch_id + 1) % args.log_interval == 0:
                 mesg = "{}\tEpoch {}:\t[{}/{}]\tcontent: {:.6f}\tstyle: {:.6f}\t ttv: {:.6f}\t total: {:.6f}".format(
                     time.ctime(), e + 1, 8 * (batch_id + 1), len(content_dataset),
                                 content_loss.item(),
@@ -177,7 +177,7 @@ def train(args):
                 print(mesg)
 
             # Checkpointing models
-            if args.checkpoint_model_dir is not None and (batch_id + 1) % 1 == 0: #args.checkpoint_interval == 0:
+            if args.checkpoint_model_dir is not None and (batch_id + 1) % args.checkpoint_interval == 0:
                 tfm.eval().cpu()
                 meta.eval().cpu()
                 ckpt_model_path = os.path.join(args.checkpoint_model_dir, 'checkpoint.pth.tar')
@@ -186,8 +186,6 @@ def train(args):
 
                 tfm.to(device).train()
                 meta.to(device).train()
-            break
-        break
     # save model
     if args.save_model_dir is not None:
         tfm.eval().cpu()
